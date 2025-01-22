@@ -25,7 +25,7 @@ else if(computerScore<humanScore){
     console.log("Game over! You won with " + humanScore + " points!");
 }
 else{
-    console.log("It's a tie! You both got " + humanScore + " points!")
+    console.log("Game over! It's a tie, you both got " + humanScore + " points!")
 }
 
 
