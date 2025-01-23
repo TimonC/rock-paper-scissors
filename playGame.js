@@ -1,10 +1,14 @@
-let rockButton = document.querySelector("#rock");
-let paperButton = document.querySelector("#paper");
-let scissorsButton = document.querySelector("#scissors");
+const rockButton = document.querySelector("#rock");
+const paperButton = document.querySelector("#paper");
+const scissorsButton = document.querySelector("#scissors");
+
+// const body = document.querySelector("body");
+// const gameText = document.createElement("div");
+// gameText.classList.add("game-text")
+// gameText.textContent = "Make your choice!"
 
 const humanScore = document.querySelector('#human-score');
 const computerScore = document.querySelector('#computer-score');
-
 const humanScoreText = document.createElement('div');
 humanScoreText.classList.add('score-text')
 humanScoreText.textContent = '0.0';
@@ -17,34 +21,38 @@ computerScore.append(computerScoreText);
 
 rockButton.addEventListener('click', (event) =>{
     result = playRound("rock");
-    updateScore(result);
+    updateGame(result);
 });
 
 paperButton.addEventListener('click', (event) =>{
     result = playRound("paper")
-    updateScore(result);
+    updateGame(result);
 
 });
 
 scissorsButton.addEventListener('click', (event) =>{
     result = playRound("scissors")
-    updateScore(result);
+    updateGame(result);
 });
 
-function updateScore(roundOutcome, humanScore=humanScoreText, computerScore=computerScoreText){
+function updateGame(roundOutcome, humanScore=humanScoreText, computerScore=computerScoreText){
+    humanNumber = Number(humanScore.textContent);
+    computerNumber = Number(computerScore.textContent);
     switch (roundOutcome){
         case "tie":
-            humanScore.textContent = "" + (Number(humanScore.textContent) + 0.5);
-            computerScore.textContent = "" + (Number(computerScore.textContent) + 0.5);
-            break;
+            humanScore.textContent = "" + (humanNumber + 0.5);
+            computerScore.textContent = "" + (computerNumber + 0.5);
 
         case "human":
-            humanScore.textContent = "" + (Number(humanScore.textContent) + 1);
-            break;
+            humanScore.textContent = "" + (humanNumber + 1);
             
         case "computer":
-            computerScore.textContent = "" + (Number(computerScore.textContent) + 1);
-            break;
+            computerScore.textContent = "" + (computerNumber + 1);
+    }
+
+    if (Number(humanScore.textContent)>=5 || Number(computerScore.textContent)>=5){
+        humanScore.textContent = 0;
+        computerScore.textContent = 0;
     }
 }
 
