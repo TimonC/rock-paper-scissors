@@ -1,67 +1,56 @@
-function playGame(){
-let humanScore=0;
-let computerScore=0;
-n = 5;
+let rockButton = document.querySelector("#rock");
+let paperButton = document.querySelector("#paper");
+let scissorsButton = document.querySelector("#scissors");
 
-for (let i=0; i<n; i++){
-    const computerSelection = getComputerChoice();
-    const humanSelection = getHumanChoice();
-    result = playRound(computerSelection, humanSelection);
-    if (result=="human"){
-        humanScore = humanScore + 1;
-    }
-    else if (result=="computer"){
-        computerScore = computerScore + 1;
-    }
-    else if (result=="tie"){
-        humanScore = humanScore + 0.5;
-        computerScore = computerScore + 0.5;
-    }
-}
-if (computerScore>humanScore){
-    console.log("Game over! The computer won with " + computerScore + " points!");
-}
-else if(computerScore<humanScore){
-    console.log("Game over! You won with " + humanScore + " points!");
-}
-else{
-    console.log("Game over! It's a tie, you both got " + humanScore + " points!")
-}
+const humanScore = document.querySelector('#human-score');
+const computerScore = document.querySelector('#computer-score');
 
+const humanScoreText = document.createElement('div');
+humanScoreText.classList.add('score-text')
+humanScoreText.textContent = '0.0';
+const computerScoreText = document.createElement('div');
+computerScoreText.classList.add('score-text')
+computerScoreText.textContent = '0.0';
 
+humanScore.append(humanScoreText);
+computerScore.append(computerScoreText);
 
+rockButton.addEventListener('click', (event) =>{
+    result = playRound("rock");
+    updateScore(result);
+});
 
+paperButton.addEventListener('click', (event) =>{
+    result = playRound("paper")
+    updateScore(result);
 
-function getComputerChoice(){
-    roll = Math.random();
-    if (roll<1/3){
-        return "rock";
-    }
-    else if (roll<2/3){
-        return "paper";
-    }
-    else{
-        return "scissors";
-    }
-}
+});
 
-function getHumanChoice(){
-    while(true){
-        choice = prompt("Enter 'rock', 'paper', or 'scissors'!");
-        choice = choice.toLowerCase();
-        if (choice == 'rock' || choice == 'paper' || choice == 'scissors'){
-            return choice;
-        }
-        else{
-            console.log("Invalid input...")
-        }
+scissorsButton.addEventListener('click', (event) =>{
+    result = playRound("scissors")
+    updateScore(result);
+});
+
+function updateScore(roundOutcome, humanScore=humanScoreText, computerScore=computerScoreText){
+    switch (roundOutcome){
+        case "tie":
+            humanScore.textContent = "" + (Number(humanScore.textContent) + 0.5);
+            computerScore.textContent = "" + (Number(computerScore.textContent) + 0.5);
+            break;
+
+        case "human":
+            humanScore.textContent = "" + (Number(humanScore.textContent) + 1);
+            break;
+            
+        case "computer":
+            computerScore.textContent = "" + (Number(computerScore.textContent) + 1);
+            break;
     }
 }
 
-
-function playRound(computerSelection, humanSelection){
-    console.assert(computerSelection=='rock' || computerSelection=='paper' || computerSelection=='scissors');
+function playRound(humanSelection){
     console.assert(humanSelection=='rock' ||humanSelection=='paper' || humanSelection=='scissors');
+    const computerSelection = getComputerChoice();
     victoryMessage = "You win! " + humanSelection + " beats " + computerSelection + "!";
     defeatMessage = "You lose! " + computerSelection + " beats " + humanSelection + "...";
 
@@ -100,4 +89,29 @@ function playRound(computerSelection, humanSelection){
         }
     }
 }
+
+function getComputerChoice(){
+    roll = Math.random();
+    if (roll<1/3){
+        return "rock";
+    }
+    else if (roll<2/3){
+        return "paper";
+    }
+    else{
+        return "scissors";
+    }
+}
+
+function getHumanChoice(){
+    while(true){
+        choice = prompt("Enter 'rock', 'paper', or 'scissors'!");
+        choice = choice.toLowerCase();
+        if (choice == 'rock' || choice == 'paper' || choice == 'scissors'){
+            return choice;
+        }
+        else{
+            console.log("Invalid input...")
+        }
+    }
 }
