@@ -2,10 +2,11 @@ const rockButton = document.querySelector("#rock");
 const paperButton = document.querySelector("#paper");
 const scissorsButton = document.querySelector("#scissors");
 
-// const body = document.querySelector("body");
-// const gameText = document.createElement("div");
-// gameText.classList.add("game-text")
-// gameText.textContent = "Make your choice!"
+const body = document.querySelector("body");
+const gameText = document.createElement("div");
+gameText.classList.add("game-text")
+gameText.textContent = "Make your choice!"
+body.prepend(gameText);
 
 const humanScore = document.querySelector('#human-score');
 const computerScore = document.querySelector('#computer-score');
@@ -16,8 +17,8 @@ const computerScoreText = document.createElement('div');
 computerScoreText.classList.add('score-text')
 computerScoreText.textContent = '0.0';
 
-humanScore.append(humanScoreText);
-computerScore.append(computerScoreText);
+humanScore.appendChild(humanScoreText);
+computerScore.appendChild(computerScoreText);
 
 rockButton.addEventListener('click', (event) =>{
     result = playRound("rock");
