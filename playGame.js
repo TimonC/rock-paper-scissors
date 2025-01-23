@@ -1,23 +1,26 @@
-const rockButton = document.querySelector("#rock");
-const paperButton = document.querySelector("#paper");
-const scissorsButton = document.querySelector("#scissors");
+let rockButton = document.querySelector("#rock");
+let paperButton = document.querySelector("#paper");
+let scissorsButton = document.querySelector("#scissors");
 
-const body = document.querySelector("body");
-const gameText = document.createElement("div");
+let body = document.querySelector("body");
+let gameText = document.createElement("div");
 gameText.classList.add("game-text")
 gameText.textContent = "Make your choice!"
+gameText.id = "gametext"
 body.prepend(gameText);
 
-const humanScore = document.querySelector('#human-score');
-const computerScore = document.querySelector('#computer-score');
-const humanScoreText = document.createElement('div');
+let humanScore = document.querySelector('#human-score');
+let humanScoreText = document.createElement('div');
 humanScoreText.classList.add('score-text')
 humanScoreText.textContent = '0.0';
-const computerScoreText = document.createElement('div');
+humanScoreText.id = 'humanscore';
+humanScore.appendChild(humanScoreText);
+
+let computerScore = document.querySelector('#computer-score');
+let computerScoreText = document.createElement('div');
 computerScoreText.classList.add('score-text')
 computerScoreText.textContent = '0.0';
-
-humanScore.appendChild(humanScoreText);
+computerScoreText.id = 'computerscore';
 computerScore.appendChild(computerScoreText);
 
 rockButton.addEventListener('click', (event) =>{
@@ -36,64 +39,82 @@ scissorsButton.addEventListener('click', (event) =>{
     updateGame(result);
 });
 
-function updateGame(roundOutcome, humanScore=humanScoreText, computerScore=computerScoreText){
-    humanNumber = Number(humanScore.textContent);
-    computerNumber = Number(computerScore.textContent);
-    switch (roundOutcome){
-        case "tie":
-            humanScore.textContent = "" + (humanNumber + 0.5);
-            computerScore.textContent = "" + (computerNumber + 0.5);
+function updateGame(roundOutcome){
+    let gameText = document.querySelector('#gametext');
+    let humanScoreText = document.querySelector('#humanscore');
+    let computerScoreText = document.querySelector('#computerscore');
 
-        case "human":
-            humanScore.textContent = "" + (humanNumber + 1);
-            
-        case "computer":
-            computerScore.textContent = "" + (computerNumber + 1);
+    let humanNumber = Number(humanScoreText.textContent);
+    let computerNumber = Number(computerScoreText.textContent);
+    if (roundOutcome=="tie"){
+        humanNumber = humanNumber +0.5;
+        computerNumber = computerNumber + 0.5;
+        humanScoreText.textContent = "" + humanNumber;
+        computerScoreText.textContent = "" + computerNumber;
+    }
+    else if (roundOutcome == "human"){
+        humanNumber = humanNumber + 1;
+        humanScoreText.textContent = "" + humanNumber;
+    }
+    else if (roundOutcome == "computer"){
+        computerNumber = computerNumber + 1;
+        computerScoreText.textContent = "" + computerNumber;
     }
 
-    if (Number(humanScore.textContent)>=5 || Number(computerScore.textContent)>=5){
-        humanScore.textContent = 0;
-        computerScore.textContent = 0;
+    if (humanNumber>=5 || computerNumber>=5){
+        humanScoreText.textContent = 0;
+        computerScoreText.textContent = 0;
+    }
+    if (humanNumber>=5 && computerNumber >=5){
+        gameText.textContent = "Game tied, everyone is a winner!"
+    }
+    else if(humanNumber>=5){
+        gameText.textContent = "Game over, you won!"
+    }
+
+    else if(computerNumber>=5){
+        gameText.textContent = "Game over, you lost..."
     }
 }
 
 function playRound(humanSelection){
     console.assert(humanSelection=='rock' ||humanSelection=='paper' || humanSelection=='scissors');
-    const computerSelection = getComputerChoice();
-    victoryMessage = "You win! " + humanSelection + " beats " + computerSelection + "!";
-    defeatMessage = "You lose! " + computerSelection + " beats " + humanSelection + "...";
+    let gameText = document.querySelector('#gametext');
+    let computerSelection = getComputerChoice();
+    victoryMessage = humanSelection + " beats " + computerSelection + "!";
+    defeatMessage = computerSelection + " beats " + humanSelection + "...";
 
     if (computerSelection==humanSelection){
-        console.log("It's a tie!")
+        gameText.textContent = "It's a tie!"
         return "tie";
     }
     else if(computerSelection=='rock'){
         if (humanSelection=='paper'){
-            console.log(victoryMessage);
+            gameText.textContent = victoryMessage;
             return "human";
         }
         else{
-            console.log(defeatMessage);
+            gameText.textContent = defeatMessage;
             return "computer";
         }
     }
     else if(computerSelection=='paper'){
         if (humanSelection=='scissors'){
-            console.log(victoryMessage);
+            gameText.textContent = victoryMessage;
             return "human";
         }
         else{
-            console.log(defeatMessage);
+            gameText.textContent = defeatMessage;
             return "computer";
         }
     }
     else if(computerSelection=='scissors'){
         if (humanSelection=='rock'){
-            console.log(victoryMessage);
+            gameText.textContent = victoryMessage;
             return "human";
         }
         else{
-            console.log(defeatMessage);
+            gameText.textContent = defeatMessage;
             return "computer";
         }
     }
